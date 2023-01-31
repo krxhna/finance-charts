@@ -1,17 +1,37 @@
-import React, { useEffect, useRef } from "react";
-import AreaChart from "./chart-components/areachart";
-import * as d3 from "d3";
+// Chart.js
+import React from 'react';
+import * as d3 from 'd3';
 
-const Chart = ({ data = []}) => {
-  // const data = [50, 30, 12, 45, 25, 60];
-  const width = 600;
-  const height = 400;
+class Chart extends React.Component {
+  node: any;
 
-  return <AreaChart data={data} width={width} height={height} />;
-};
+  componentDidMount() {
+    this.drawChart();
+  }
 
-Chart.defaultProps = {
-  data: [50, 30, 12, 45, 25, 60]
-};
+  drawChart() {
+    const data = [1, 2, 3, 4, 5];
+    const svg = d3.select(this.node).append('svg');
+
+    svg.selectAll('circle')
+      .data(data)
+      .enter()
+      .append('circle')
+      .attr('cx', (d, i) => i * 50 + 25)
+      .attr('cy', 25)
+      .attr('r', d => d * 5)
+      .attr('fill', 'red');
+  }
+
+  render() {
+    return (
+      <div
+        ref={node => {
+          this.node = node;
+        }}
+      />
+    );
+  }
+}
 
 export default Chart;
